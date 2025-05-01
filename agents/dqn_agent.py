@@ -7,7 +7,7 @@ from networks.q_network import QNetwork
 from utils.replay_buffer import ReplayBuffer
 
 class DQNAgent:
-    def __init__(self, state_dim: int, action_dim: int, device: str = "cpu"):
+    def __init__(self, state_dim: int, action_dim: int, device: torch.device = torch.device("cpu")):        
         self.device = device
         self.action_dim = action_dim
 
@@ -59,8 +59,10 @@ class DQNAgent:
         current_q = self.q_network(states).gather(1, actions)
 
         # Compute target Q-values using target network
-        next_q = self.target_network(next_states).max(1, keepdim=True)[0]
-        expected_q = rewards + (1 - dones) * self.gamma * next_q
+        with torch.no_grad():
+            next_q = self.target_network(next_states).max(1, keepdim=True)[0]
+            expected_q = rewards + (1 - dones) * self.gamma * next_q
+     
 
         # Compute MSE loss
         loss = torch.nn.functional.mse_loss(current_q, expected_q)
@@ -75,5 +77,8 @@ class DQNAgent:
         if self.train_step % self.update_target_every == 0:
             self.target_network.load_state_dict(self.q_network.state_dict())
 
-        # Decay epsilon
+    
+    def decay_epsilon(self) -> None:
+        """Decay epsilon after each episode."""
         self.epsilon = max(self.epsilon * self.epsilon_decay, self.epsilon_min)
+    
