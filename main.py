@@ -23,7 +23,7 @@ def main():
     rewards_per_episode = []
     logger = TrainLogger()
 
-for episode in range(1, num_episodes + 1):
+    for episode in range(1, num_episodes + 1):
         state, _ = env.reset()
         done = False
         total_reward = 0
@@ -43,7 +43,7 @@ for episode in range(1, num_episodes + 1):
         success = 1 if total_reward >= 200 else 0
         logger.record(total_reward, total_reward, success)
 
-     rewards_per_episode.append(total_reward)
+        rewards_per_episode.append(total_reward)
 
         print(f"Episode {episode}, Total Reward: {total_reward:.2f}, Epsilon: {agent.epsilon:.3f}")
 
