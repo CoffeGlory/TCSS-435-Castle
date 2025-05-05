@@ -2,6 +2,8 @@ import gymnasium as gym
 import torch
 import numpy as np
 from agents.dqn_agent import DQNAgent
+from utils.train_logger import TrainLogger
+
 
 def main():
     # Hyperparameters
@@ -19,8 +21,9 @@ def main():
 
     # Logging
     rewards_per_episode = []
+    logger = TrainLogger()
 
-    for episode in range(1, num_episodes + 1):
+     for episode in range(1, num_episodes + 1):
         state, _ = env.reset()
         done = False
         total_reward = 0
@@ -37,7 +40,10 @@ def main():
             total_reward += reward
 
         agent.decay_epsilon()
-        rewards_per_episode.append(total_reward)
+        success = 1 if total_reward >= 200 else 0
+        logger.record(total_reward, total_reward, success)
+
+         rewards_per_episode.append(total_reward)
 
         print(f"Episode {episode}, Total Reward: {total_reward:.2f}, Epsilon: {agent.epsilon:.3f}")
 
@@ -45,6 +51,7 @@ def main():
 
     # Save results
     np.save("results/rewards.npy", np.array(rewards_per_episode))
+    logger.save_to_csv("results/train_log.csv")
     torch.save(agent.q_network.state_dict(), "results/dqn_lunarlander.pth")  # ✅ Save model
 
 
