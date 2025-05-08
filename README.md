@@ -7,5 +7,7 @@ Double DQN implemented on Double-DQN branch.
 
 The program starts by normal run on main.py
 
+Report Link: https://docs.google.com/document/d/1BW0KvWlICmReeHLcD4T1CyLQvOeupQy99Z-hzPW8tQE/edit?usp=sharing
+
 Authors: 
   TCSS435 Castle Team.
