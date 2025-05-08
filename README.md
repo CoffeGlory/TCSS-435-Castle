@@ -1,4 +1,8 @@
 # TCSS-435-Castle
-This is our team repository for assignment 1
+This program is a python based Lunar-Landing simulator with environment suppport from Gymnasium Box2D for TCSS435.
+It is a pracitse program of machine learning using Deep Q-learning with an extension of Double DQN.
 
-This program is Lunar-Landing simulator with environment suppport from Gymnasium Box2D.
+The program starts by normal run on main.py
+
+Authors: 
+  TCSS435 Castle team.
